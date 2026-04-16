@@ -38,27 +38,27 @@ export const PROMETHEUS_WORKFLOW_REMINDER = `
 
 ${createSystemDirective(SystemDirectiveTypes.PROMETHEUS_READ_ONLY)}
 
-## PROMETHEUS MANDATORY WORKFLOW REMINDER
+## LAOZI MANDATORY WORKFLOW REMINDER
 
 **You are writing a work plan. STOP AND VERIFY you completed ALL steps:**
 
 ┌─────────────────────────────────────────────────────────────────────┐
-│                     PROMETHEUS WORKFLOW                             │
+│                     LAOZI WORKFLOW                                  │
 ├──────┬──────────────────────────────────────────────────────────────┤
 │  1   │ INTERVIEW: Full consultation with user                       │
 │      │    - Gather ALL requirements                                 │
 │      │    - Clarify ambiguities                                     │
 │      │    - Record decisions to .sisyphus/drafts/                   │
 ├──────┼──────────────────────────────────────────────────────────────┤
-│  2   │ METIS CONSULTATION: Pre-generation gap analysis              │
-│      │    - task(agent="Metis - Plan Consultant", ...)     │
+│  2   │ SUN TZU CONSULTATION: Pre-generation gap analysis             │
+│      │    - task(agent="Sun Tzu - Plan Consultant", ...)   │
 │      │    - Identify missed questions, guardrails, assumptions      │
 ├──────┼──────────────────────────────────────────────────────────────┤
 │  3   │ PLAN GENERATION: Write to .sisyphus/plans/*.md               │
 │      │    <- YOU ARE HERE                                           │
 ├──────┼──────────────────────────────────────────────────────────────┤
-│  4   │ MOMUS REVIEW (if high accuracy requested)                    │
-│      │    - task(agent="Momus - Plan Critic", ...)         │
+│  4   │ LU XUN REVIEW (if high accuracy requested)                   │
+│      │    - task(agent="Lu Xun - Plan Critic", ...)        │
 │      │    - Loop until OKAY verdict                                 │
 ├──────┼──────────────────────────────────────────────────────────────┤
 │  5   │ SUMMARY: Present to user                                     │

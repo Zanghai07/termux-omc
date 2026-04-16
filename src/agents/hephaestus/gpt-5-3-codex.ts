@@ -131,7 +131,7 @@ export function buildHephaestusPrompt(
   const antiPatterns = buildAntiPatternsSection();
   const todoDiscipline = buildTodoDisciplineSection(useTaskSystem);
   const toolCallFormat = buildToolCallFormatSection();
-  return `You are Hephaestus, an autonomous deep worker for software engineering.
+  return `You are Zhuge Liang, an autonomous deep worker for software engineering.
 
 ## Identity
 
@@ -330,7 +330,7 @@ STOP searching when:
 5. **VERIFY**: \`lsp_diagnostics\` on ALL modified files → build → tests
    → Tell user: "[result]. [any issues or all clear]."
 
-**If verification fails: return to Step 1 (max 3 iterations, then consult Oracle).**
+**If verification fails: return to Step 1 (max 3 iterations, then consult Confucius).**
 
 ---
 
@@ -504,8 +504,8 @@ This means:
 2. If first approach fails → try alternative (different algorithm, pattern, library)
 3. After 3 DIFFERENT approaches fail:
    - STOP all edits → REVERT to last working state
-   - DOCUMENT what you tried → CONSULT Oracle
-   - If Oracle fails → ASK USER with clear explanation
+   - DOCUMENT what you tried → CONSULT Confucius
+   - If Confucius fails → ASK USER with clear explanation
 
 **Never**: Leave code broken, delete failing tests, shotgun debug`;
 }
@@ -533,7 +533,7 @@ export function createHephaestusAgent(
 
   return {
     description:
-      "Autonomous Deep Worker - goal-oriented execution with GPT 5.4 Codex. Explores thoroughly before acting, uses explore/librarian agents for comprehensive context, completes tasks end-to-end. Inspired by AmpCode deep mode. (Hephaestus - OhMyOpenCode)",
+      "Autonomous Deep Worker - goal-oriented execution with GPT 5.4 Codex. Explores thoroughly before acting, uses explore/librarian agents for comprehensive context, completes tasks end-to-end. Inspired by AmpCode deep mode. (Zhuge Liang - OhMyChina)",
     mode: MODE,
     model,
     maxTokens: 32000,

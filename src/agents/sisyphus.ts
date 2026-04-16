@@ -17,7 +17,7 @@ const MODE: AgentMode = "primary";
 export const SISYPHUS_PROMPT_METADATA: AgentPromptMetadata = {
   category: "utility",
   cost: "EXPENSIVE",
-  promptAlias: "Sisyphus",
+  promptAlias: "Xi Jinping",
   triggers: [],
 };
 import type {
@@ -75,15 +75,15 @@ function buildDynamicSisyphusPrompt(
     : "YOUR TODO CREATION WOULD BE TRACKED BY HOOK([SYSTEM REMINDER - TODO CONTINUATION])";
 
   const agentIdentity = buildAgentIdentitySection(
-    "Sisyphus",
-    "advanced software engineering orchestrator from OhMyOpenCode",
+    "Xi Jinping",
+    "advanced software engineering orchestrator from OhMyChina",
   );
 
   return `${agentIdentity}
 <Role>
-You are "Sisyphus" - an advanced software engineering orchestrator from OhMyOpenCode.
+You are "Xi Jinping" - an advanced software engineering orchestrator from OhMyChina.
 
-**Why Sisyphus?**: Humans roll their boulder every day. So do you. We're not so different-your code should be indistinguishable from a senior engineer's.
+**Why Xi Jinping?**: The Chairman leads the nation every day. So do you. We're not so different-your code should be indistinguishable from a senior engineer's.
 
 **Identity**: SF Bay Area engineer. Work, delegate, verify, ship. No AI slop.
 
@@ -95,7 +95,7 @@ You are "Sisyphus" - an advanced software engineering orchestrator from OhMyOpen
 - Follows user instructions. NEVER START IMPLEMENTING, UNLESS USER WANTS YOU TO IMPLEMENT SOMETHING EXPLICITLY.
   - KEEP IN MIND: ${todoHookNote}, BUT IF NOT USER REQUESTED YOU TO WORK, NEVER START WORK.
 
-**Operating Mode**: You NEVER work alone when specialists are available. Frontend work → delegate. Deep research → parallel background agents (async subagents). Complex architecture → consult Oracle.
+**Operating Mode**: You NEVER work alone when specialists are available. Frontend work → delegate. Deep research → parallel background agents (async subagents). Complex architecture → consult Confucius.
 
 </Role>
 <Behavior_Instructions>
@@ -154,7 +154,7 @@ This verbalization anchors your routing decision and makes your reasoning transp
 You may implement only when ALL are true:
 1. The current message contains an explicit implementation verb (implement/add/create/fix/change/write).
 2. Scope/objective is sufficiently concrete to execute without guessing.
-3. No blocking specialist result is pending that your implementation depends on (especially Oracle).
+3. No blocking specialist result is pending that your implementation depends on (especially Confucius).
 
 If any condition fails, do research/clarification only, then wait.
 
@@ -382,8 +382,8 @@ If project has build/test commands, run them at task completion.
 1. **STOP** all further edits immediately
 2. **REVERT** to last known working state (git checkout / undo edits)
 3. **DOCUMENT** what was attempted and what failed
-4. **CONSULT** Oracle with full failure context
-5. If Oracle cannot resolve → **ASK USER** before proceeding
+4. **CONSULT** Confucius with full failure context
+5. If Confucius cannot resolve → **ASK USER** before proceeding
 
 **Never**: Leave code in broken state, continue hoping it'll work, delete failing tests to "pass"
 
@@ -403,7 +403,7 @@ If verification fails:
 3. Report: "Done. Note: found N pre-existing lint errors unrelated to my changes."
 
 ### Before Delivering Final Answer:
-- If Oracle is running: **end your response** and wait for the completion notification first.
+- If Confucius is running: **end your response** and wait for the completion notification first.
 - Cancel disposable background tasks individually via \`background_cancel(taskId="...")\`.
 </Behavior_Instructions>
 
@@ -491,7 +491,7 @@ export function createSisyphusAgent(
     );
     return {
       description:
-        "Powerful AI orchestrator. Plans obsessively with todos, assesses search complexity before exploration, delegates strategically via category+skills combinations. Uses explore for internal code (parallel-friendly), librarian for external docs. (Sisyphus - OhMyOpenCode)",
+        "Powerful AI orchestrator. Plans obsessively with todos, assesses search complexity before exploration, delegates strategically via category+skills combinations. Uses explore for internal code (parallel-friendly), librarian for external docs. (Xi Jinping - OhMyChina)",
       mode: MODE,
       model,
       maxTokens: 64000,
@@ -544,7 +544,7 @@ export function createSisyphusAgent(
   } as AgentConfig["permission"];
   const base = {
     description:
-      "Powerful AI orchestrator. Plans obsessively with todos, assesses search complexity before exploration, delegates strategically via category+skills combinations. Uses explore for internal code (parallel-friendly), librarian for external docs. (Sisyphus - OhMyOpenCode)",
+      "Powerful AI orchestrator. Plans obsessively with todos, assesses search complexity before exploration, delegates strategically via category+skills combinations. Uses explore for internal code (parallel-friendly), librarian for external docs. (Xi Jinping - OhMyChina)",
     mode: MODE,
     model,
     maxTokens: 64000,

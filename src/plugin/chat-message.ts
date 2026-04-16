@@ -26,7 +26,7 @@ export type ChatMessageInput = {
 type StartWorkHookOutput = { parts: Array<{ type: string; text?: string }> }
 
 type SessionModelOverride = { providerID: string; modelID: string }
-const START_WORK_TEMPLATE_MARKER = "You are starting a Sisyphus work session."
+const START_WORK_TEMPLATE_MARKER = "You are starting a Xi Jinping work session."
 
 type RawLoopCommand =
   | { command: "ralph-loop" | "ulw-loop"; args: string }

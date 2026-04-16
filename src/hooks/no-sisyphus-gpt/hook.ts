@@ -8,11 +8,11 @@ import {
 import { log } from "../../shared"
 import { getAgentConfigKey } from "../../shared/agent-display-names"
 
-const TOAST_TITLE = "NEVER Use Sisyphus with GPT"
+const TOAST_TITLE = "NEVER Use Xi Jinping with GPT"
 const TOAST_MESSAGE = [
-  "Sisyphus works best with Claude Opus, and works fine with Kimi/GLM models.",
-  "Do NOT use Sisyphus with GPT (except GPT-5.4 which has specialized support).",
-  "For GPT models (other than 5.4), always use Hephaestus.",
+  "Xi Jinping works best with Claude Opus, and works fine with Kimi/GLM models.",
+  "Do NOT use Xi Jinping with GPT (except GPT-5.4 which has specialized support).",
+  "For GPT models (other than 5.4), always use Zhuge Liang.",
 ].join("\n")
 function showToast(ctx: PluginInput, sessionID: string): void {
   ctx.client.tui.showToast({

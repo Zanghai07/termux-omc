@@ -1,7 +1,7 @@
 /**
  * Agent config keys to display names mapping.
  * Config keys are lowercase (e.g., "sisyphus", "atlas").
- * Display names include suffixes for UI/logs (e.g., "Sisyphus - Ultraworker").
+ * Display names include suffixes for UI/logs (e.g., "Xi Jinping - Ultraworker").
  *
  * IMPORTANT: Display names MUST NOT contain parentheses or other characters
  * that are invalid in HTTP header values per RFC 7230. OpenCode passes the
@@ -10,19 +10,19 @@
  * type selector dropdown. Use ` - ` (space-dash-space) instead of `(...)`.
  */
 export const AGENT_DISPLAY_NAMES: Record<string, string> = {
-  sisyphus: "Sisyphus - Ultraworker",
-  hephaestus: "Hephaestus - Deep Agent",
-  prometheus: "Prometheus - Plan Builder",
-  atlas: "Atlas - Plan Executor",
-  "sisyphus-junior": "Sisyphus-Junior",
-  metis: "Metis - Plan Consultant",
-  momus: "Momus - Plan Critic",
+  sisyphus: "Xi Jinping - Ultraworker",
+  hephaestus: "Zhuge Liang - Deep Agent",
+  prometheus: "Laozi - Plan Builder",
+  atlas: "Mao Zedong - Plan Executor",
+  "sisyphus-junior": "Red Guard",
+  metis: "Sun Tzu - Plan Consultant",
+  momus: "Lu Xun - Plan Critic",
   athena: "Athena - Council",
   "athena-junior": "Athena-Junior - Council",
-  oracle: "oracle",
-  librarian: "librarian",
-  explore: "explore",
-  "multimodal-looker": "multimodal-looker",
+  oracle: "Confucius",
+  librarian: "Cai Lun",
+  explore: "Sun Wukong",
+  "multimodal-looker": "Zheng He",
   "council-member": "council-member",
 }
 

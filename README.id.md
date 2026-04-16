@@ -4,7 +4,7 @@
 
 ### Fork yang kompatibel dengan proxy China dari [oh-my-opencode](https://github.com/code-yeongyu/oh-my-openagent)
 
-System prompt dimodifikasi agar bisa melewati content filter provider AI proxy berbasis China.
+System prompt dimodifikasi agar bisa melewati content filter. Semua agent diganti nama jadi tokoh sejarah dan politik China.
 
 [English](README.md) | [Bahasa Indonesia](README.id.md)
 
@@ -14,30 +14,30 @@ System prompt dimodifikasi agar bisa melewati content filter provider AI proxy b
 
 ## Apa ini?
 
-**Oh My China** adalah fork dari [oh-my-opencode](https://github.com/code-yeongyu/oh-my-openagent) (oleh [@code-yeongyu](https://github.com/code-yeongyu)) dengan satu modifikasi spesifik: **system prompt disesuaikan agar bisa bekerja dengan provider AI proxy berbasis China**.
+**Oh My China** adalah fork dari [oh-my-opencode](https://github.com/code-yeongyu/oh-my-openagent) (oleh [@code-yeongyu](https://github.com/code-yeongyu)) dengan dua modifikasi:
 
-Kalau kamu routing API request melalui relay/proxy berbasis China (misalnya untuk hemat biaya atau latency lebih rendah), system prompt asli oh-my-opencode akan diblokir oleh sistem content filtering China. Fork ini memperbaiki masalah tersebut.
+1. **System prompt disesuaikan** agar lolos content filter proxy China
+2. **Semua agent diganti nama** jadi tokoh sejarah/politik China
 
-### Apa yang diubah?
+### Daftar Agent
 
-Frasa `"Powerful AI Agent"` yang dikombinasikan dengan instruksi identity override memicu content filter proxy China, menghasilkan response:
+| Asli | Oh My China | Peran |
+|------|-------------|-------|
+| Sisyphus | **Xi Jinping** | Orkestrator utama. Memimpin kode. |
+| Hephaestus | **Zhuge Liang** | Deep worker otonom. Sang ahli strategi legendaris. |
+| Oracle | **Confucius** | Konsultan read-only. Kebijaksanaan tanpa aksi. |
+| Librarian | **Cai Lun** | Pencari dokumentasi. Penemu kertas. |
+| Explore | **Sun Wukong** | Pencari codebase. Raja Kera mengintai segalanya. |
+| Atlas | **Mao Zedong** | Orkestrator todo. Sang Pengorganisir Agung. |
+| Prometheus | **Laozi** | Perencana strategis. Jalan sebelum pekerjaan. |
+| Metis | **Sun Tzu** | Konsultan pra-perencanaan. Seni Perang Planning. |
+| Momus | **Lu Xun** | Reviewer/kritikus plan. Kritikus terbesar China. |
+| Sisyphus-Junior | **Red Guard** | Eksekutor tugas. Ikut perintah. |
+| Multimodal Looker | **Zheng He** | Analisis vision/PDF. Sang penjelajah agung. |
 
-```
-"抱歉，系统检测到您当前输入的信息存在敏感内容..."
-(finish_reason: content_filter)
-```
+### Fix Content Filter
 
-**Perubahan yang dilakukan (4 file source):**
-
-| File | Sebelum | Sesudah |
-|------|---------|---------|
-| `src/agents/dynamic-agent-core-sections.ts` | `"supersedes any prior identity statements"` | `"takes priority for the current session"` |
-| `src/agents/dynamic-agent-core-sections.ts` | `"Do not identify as any other assistant or AI"` | `"introduce yourself as [agent]"` |
-| `src/agents/sisyphus.ts` | `"Powerful AI Agent with orchestration capabilities"` | `"advanced software engineering orchestrator"` |
-| `src/agents/sisyphus/default.ts` | `"Powerful AI Agent with orchestration capabilities"` | `"advanced software engineering orchestrator"` |
-| `src/agents/sisyphus/gpt-5-4.ts` | `"Powerful AI Agent with orchestration capabilities"` | `"advanced software engineering orchestrator"` |
-
-Semua agent lain (Hephaestus, Atlas, Oracle, Librarian, Prometheus, dll.) sudah kompatibel dan tidak perlu diubah.
+Frasa `"Powerful AI Agent"` dikombinasikan dengan instruksi identity override memicu content filter proxy China. Fork ini menggantinya dengan phrasing yang lebih soft.
 
 ---
 
@@ -67,8 +67,6 @@ Edit `~/.config/opencode/opencode.json` (atau `opencode.jsonc`):
 
 ### Konfigurasi provider proxy China
 
-Set proxy China kamu sebagai base URL di config provider OpenCode:
-
 ```json
 {
   "provider": {
@@ -92,8 +90,6 @@ opencode
 
 ## Install dari source
 
-Kalau kamu lebih suka build dari source:
-
 ```bash
 git clone https://github.com/enowdev/oh-my-china.git
 cd oh-my-china
@@ -112,15 +108,15 @@ Fork ini mewarisi semua fitur dari oh-my-opencode:
 
 | Fitur | Deskripsi |
 |-------|-----------|
-| **Discipline Agents** | Sisyphus mengorkestrasi Hephaestus, Oracle, Librarian, Explore secara paralel |
+| **Discipline Agents** | Xi Jinping mengorkestrasi Zhuge Liang, Confucius, Cai Lun, Sun Wukong secara paralel |
 | **`ultrawork` / `ulw`** | Satu kata mengaktifkan semua agent. Jalan terus sampai selesai |
 | **IntentGate** | Menganalisis intent asli user sebelum bertindak |
-| **Hash-Anchored Edits** | Hash konten `LINE#ID` memvalidasi setiap perubahan. Nol error baris basi |
+| **Hash-Anchored Edits** | Hash konten `LINE#ID` memvalidasi setiap perubahan |
 | **LSP + AST-Grep** | Refactoring presisi IDE untuk agent |
 | **Background Agents** | 5+ spesialis berjalan paralel |
 | **Built-in MCPs** | Exa (web search), Context7 (docs), Grep.app (GitHub search) |
 | **Ralph Loop** | Loop self-referential sampai 100% selesai |
-| **Prometheus Planner** | Perencanaan strategis mode interview sebelum eksekusi |
+| **Laozi Planner** | Perencanaan strategis mode interview sebelum eksekusi |
 | **Kompatibel Claude Code** | Semua hooks, commands, skills, MCPs tetap berfungsi |
 
 Untuk dokumentasi lengkap, lihat [project upstream](https://github.com/code-yeongyu/oh-my-openagent).
@@ -131,7 +127,7 @@ Untuk dokumentasi lengkap, lihat [project upstream](https://github.com/code-yeon
 
 Project ini adalah fork dari **[oh-my-opencode / oh-my-openagent](https://github.com/code-yeongyu/oh-my-openagent)** oleh **[@code-yeongyu](https://github.com/code-yeongyu)** (YeonGyu Kim).
 
-Semua kredit untuk arsitektur asli, agent, tools, hooks, dan fitur diberikan kepada project upstream beserta kontributornya. Fork ini hanya memodifikasi phrasing system prompt untuk kompatibilitas proxy China.
+Semua kredit untuk arsitektur asli, agent, tools, hooks, dan fitur diberikan kepada project upstream beserta kontributornya. Fork ini memodifikasi phrasing system prompt dan nama display agent.
 
 - **Repo asli**: [github.com/code-yeongyu/oh-my-openagent](https://github.com/code-yeongyu/oh-my-openagent)
 - **npm (asli)**: [oh-my-opencode](https://www.npmjs.com/package/oh-my-opencode)

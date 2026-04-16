@@ -8,7 +8,7 @@ const MODE: AgentMode = "subagent";
 export const ORACLE_PROMPT_METADATA: AgentPromptMetadata = {
   category: "advisor",
   cost: "EXPENSIVE",
-  promptAlias: "Oracle",
+  promptAlias: "Confucius",
   triggers: [
     {
       domain: "Architecture decisions",
@@ -252,7 +252,7 @@ export function createOracleAgent(model: string): AgentConfig {
 
   const base = {
     description:
-      "Read-only consultation agent. High-IQ reasoning specialist for debugging hard problems and high-difficulty architecture design. (Oracle - OhMyOpenCode)",
+      "Read-only consultation agent. High-IQ reasoning specialist for debugging hard problems and high-difficulty architecture design. (Confucius - OhMyChina)",
     mode: MODE,
     model,
     temperature: 0.1,

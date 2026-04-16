@@ -43,8 +43,8 @@ export async function promptInstallConfig(detected: DetectedConfig): Promise<Ins
   const openai = await selectOrCancel({
     message: "Do you have an OpenAI/ChatGPT Plus subscription?",
     options: [
-      { value: "no", label: "No", hint: "Oracle will use fallback models" },
-      { value: "yes", label: "Yes", hint: "GPT-5.4 for Oracle (high-IQ debugging)" },
+      { value: "no", label: "No", hint: "Confucius will use fallback models" },
+      { value: "yes", label: "Yes", hint: "GPT-5.4 for Confucius (high-IQ debugging)" },
     ],
     initialValue: initial.openai,
   })
@@ -84,7 +84,7 @@ export async function promptInstallConfig(detected: DetectedConfig): Promise<Ins
     message: "Do you have a Z.ai Coding Plan subscription?",
     options: [
       { value: "no", label: "No", hint: "Will use other configured providers" },
-      { value: "yes", label: "Yes", hint: "Fallback for Librarian and Multimodal Looker" },
+      { value: "yes", label: "Yes", hint: "Fallback for Cai Lun and Zheng He" },
     ],
     initialValue: initial.zaiCodingPlan,
   })
@@ -94,7 +94,7 @@ export async function promptInstallConfig(detected: DetectedConfig): Promise<Ins
     message: "Do you have a Kimi For Coding subscription?",
     options: [
       { value: "no", label: "No", hint: "Will use other configured providers" },
-      { value: "yes", label: "Yes", hint: "Kimi K2.5 for Sisyphus/Prometheus fallback" },
+      { value: "yes", label: "Yes", hint: "Kimi K2.5 for Xi Jinping/Laozi fallback" },
     ],
     initialValue: initial.kimiForCoding,
 })
