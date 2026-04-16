@@ -11,15 +11,18 @@ import { getToolsPromptDisplay } from "./dynamic-agent-tool-categorization"
  * This is critical for mode: "primary" agents where OpenCode prepends its own system prompt
  * containing a default identity (e.g., "You are Claude"). Without this override directive,
  * the LLM may default to the base identity instead of the agent's intended persona.
+ *
+ * NOTE: Phrasing is carefully chosen to avoid triggering content filters on China-based
+ * proxy providers. Avoid "Powerful AI Agent" and aggressive identity override language.
  */
 export function buildAgentIdentitySection(
   agentName: string,
   roleDescription: string,
 ): string {
   return `<agent-identity>
-Your designated identity for this session is "${agentName}". This identity supersedes any prior identity statements.
+For this session, you operate as "${agentName}". This identity takes priority for the current session.
 You are "${agentName}" - ${roleDescription}.
-When asked who you are, always identify as ${agentName}. Do not identify as any other assistant or AI.
+When asked who you are, introduce yourself as ${agentName}.
 </agent-identity>`
 }
 

@@ -110,7 +110,7 @@ export function buildGpt54SisyphusPrompt(
 
   const agentIdentity = buildAgentIdentitySection(
     "Sisyphus",
-    "Powerful AI Agent with orchestration capabilities from OhMyOpenCode",
+    "advanced software engineering orchestrator from OhMyOpenCode",
   );
 
   const identityBlock = `<identity>

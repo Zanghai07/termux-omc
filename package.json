@@ -1,12 +1,12 @@
 {
-  "name": "oh-my-opencode",
-  "version": "3.17.4",
-  "description": "The Best AI Agent Harness - Batteries-Included OpenCode Plugin with Multi-Model Orchestration, Parallel Background Agents, and Crafted LSP/AST Tools",
+  "name": "oh-my-china",
+  "version": "1.0.0",
+  "description": "China-compatible fork of oh-my-opencode - Modified system prompts to pass through China-based AI proxy providers",
   "main": "./dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "bin": {
-    "oh-my-opencode": "bin/oh-my-opencode.js"
+    "oh-my-china": "bin/oh-my-opencode.js"
   },
   "files": [
     "dist",
@@ -37,22 +37,23 @@
   "keywords": [
     "opencode",
     "plugin",
-    "oracle",
-    "librarian",
+    "china",
+    "proxy",
     "agents",
     "ai",
-    "llm"
+    "llm",
+    "oh-my-opencode"
   ],
-  "author": "YeonGyu-Kim",
+  "author": "enowdev",
   "license": "SUL-1.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/code-yeongyu/oh-my-openagent.git"
+    "url": "git+https://github.com/enowdev/oh-my-china.git"
   },
   "bugs": {
-    "url": "https://github.com/code-yeongyu/oh-my-openagent/issues"
+    "url": "https://github.com/enowdev/oh-my-china/issues"
   },
-  "homepage": "https://github.com/code-yeongyu/oh-my-openagent#readme",
+  "homepage": "https://github.com/enowdev/oh-my-china#readme",
   "dependencies": {
     "@ast-grep/cli": "^0.41.1",
     "@ast-grep/napi": "^0.41.1",
@@ -78,19 +79,7 @@
     "bun-types": "1.3.11",
     "typescript": "^5.7.3"
   },
-  "optionalDependencies": {
-    "oh-my-opencode-darwin-arm64": "3.17.4",
-    "oh-my-opencode-darwin-x64": "3.17.4",
-    "oh-my-opencode-darwin-x64-baseline": "3.17.4",
-    "oh-my-opencode-linux-arm64": "3.17.4",
-    "oh-my-opencode-linux-arm64-musl": "3.17.4",
-    "oh-my-opencode-linux-x64": "3.17.4",
-    "oh-my-opencode-linux-x64-baseline": "3.17.4",
-    "oh-my-opencode-linux-x64-musl": "3.17.4",
-    "oh-my-opencode-linux-x64-musl-baseline": "3.17.4",
-    "oh-my-opencode-windows-x64": "3.17.4",
-    "oh-my-opencode-windows-x64-baseline": "3.17.4"
-  },
+  "optionalDependencies": {},
   "overrides": {},
   "trustedDependencies": [
     "@ast-grep/cli",
