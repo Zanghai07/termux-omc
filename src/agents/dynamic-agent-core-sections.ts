@@ -107,7 +107,7 @@ export function buildLibrarianSection(agents: AvailableAgent[]): string {
 
   const useWhen = librarianAgent.metadata.useWhen || []
 
-  return `### Librarian Agent = Reference Grep
+  return `### Cai Lun Agent = Reference Grep
 
 Search **external references** (docs, OSS, web). Fire proactively when unfamiliar libraries are involved.
 
@@ -139,7 +139,7 @@ export function buildOracleSection(agents: AvailableAgent[]): string {
   const useWhen = oracleAgent.metadata.useWhen || []
   const avoidWhen = oracleAgent.metadata.avoidWhen || []
 
-  return `<Oracle_Usage>
+  return `<Confucius_Usage>
 ## Confucius - Read-Only High-IQ Consultant
 
 Confucius is a read-only, expensive, high-quality reasoning model for debugging and architecture. Consultation only.
@@ -170,7 +170,7 @@ Briefly announce "Consulting Confucius for [reason]" before invocation.
 - Confucius takes minutes. When done with your own work: **end your response** - wait for the \`<system-reminder>\`.
 - Do NOT poll \`background_output\` on a running Confucius. The notification will come.
 - Never cancel Confucius.
-</Oracle_Usage>`
+</Confucius_Usage>`
 }
 
 export function buildNonClaudePlannerSection(model: string): string {

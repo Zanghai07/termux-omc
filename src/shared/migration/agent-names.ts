@@ -39,6 +39,25 @@ export const AGENT_NAME_MAP: Record<string, string> = {
   "Sisyphus-Junior": "sisyphus-junior",
   "sisyphus-junior": "sisyphus-junior",
 
+  // China display names → canonical keys
+  "Xi Jinping": "sisyphus",
+  "Xi Jinping - Ultraworker": "sisyphus",
+  "Zhuge Liang": "hephaestus",
+  "Zhuge Liang - Deep Agent": "hephaestus",
+  Confucius: "oracle",
+  "Cai Lun": "librarian",
+  "Sun Wukong": "explore",
+  "Mao Zedong": "atlas",
+  "Mao Zedong - Plan Executor": "atlas",
+  Laozi: "prometheus",
+  "Laozi - Plan Builder": "prometheus",
+  "Sun Tzu": "metis",
+  "Sun Tzu - Plan Consultant": "metis",
+  "Lu Xun": "momus",
+  "Lu Xun - Plan Critic": "momus",
+  "Red Guard": "sisyphus-junior",
+  "Zheng He": "multimodal-looker",
+
   // Already lowercase - passthrough
   build: "build",
   oracle: "oracle",

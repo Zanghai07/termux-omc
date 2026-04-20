@@ -43,12 +43,12 @@ Examples:
 
 Model Providers (Priority: Native > Copilot > OpenCode Zen > Z.ai > Kimi > Vercel):
   Claude        Native anthropic/ models (Opus, Sonnet, Haiku)
-  OpenAI        Native openai/ models (GPT-5.4 for Oracle)
+  OpenAI        Native openai/ models (GPT-5.4 for Confucius)
   Gemini        Native google/ models (Gemini 3.1 Pro, Flash)
   Copilot       github-copilot/ models (fallback)
   OpenCode Zen  opencode/ models (opencode/claude-opus-4-6, etc.)
   Z.ai          zai-coding-plan/glm-5 (visual-engineering fallback)
-  Kimi          kimi-for-coding/k2p5 (Sisyphus/Prometheus fallback)
+  Kimi          kimi-for-coding/k2p5 (Xi Jinping/Laozi fallback)
   Vercel        vercel/ models (universal proxy, always last fallback)
 `)
   .action(async (options) => {
@@ -74,7 +74,7 @@ program
    .allowUnknownOption()
    .passThroughOptions()
   .description("Run opencode with todo/background task completion enforcement")
-  .option("-a, --agent <name>", "Agent to use (default: from CLI/env/config, fallback: Sisyphus)")
+  .option("-a, --agent <name>", "Agent to use (default: from CLI/env/config, fallback: Xi Jinping)")
   .option("-m, --model <provider/model>", "Model override (e.g., anthropic/claude-sonnet-4)")
   .option("-d, --directory <path>", "Working directory")
   .option("-p, --port <port>", "Server port (attaches if port already in use)", parseInt)
@@ -86,24 +86,24 @@ program
   .option("--session-id <id>", "Resume existing session instead of creating new one")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode run "Fix the bug in index.ts"
-  $ bunx oh-my-opencode run --agent Sisyphus "Implement feature X"
+  $ bunx oh-my-china run "Fix the bug in index.ts"
+  $ bunx oh-my-china run --agent "Xi Jinping" "Implement feature X"
   $ bunx oh-my-opencode run --port 4321 "Fix the bug"
   $ bunx oh-my-opencode run --attach http://127.0.0.1:4321 "Fix the bug"
   $ bunx oh-my-opencode run --json "Fix the bug" | jq .sessionId
   $ bunx oh-my-opencode run --on-complete "notify-send Done" "Fix the bug"
   $ bunx oh-my-opencode run --session-id ses_abc123 "Continue the work"
   $ bunx oh-my-opencode run --model anthropic/claude-sonnet-4 "Fix the bug"
-  $ bunx oh-my-opencode run --agent Sisyphus --model openai/gpt-5.4 "Implement feature X"
+  $ bunx oh-my-china run --agent "Xi Jinping" --model openai/gpt-5.4 "Implement feature X"
 
 Agent resolution order:
   1) --agent flag
   2) OPENCODE_DEFAULT_AGENT
   3) oh-my-opencode.json "default_run_agent"
-  4) Sisyphus (fallback)
+   4) Xi Jinping (fallback)
 
 Available core agents:
-  Sisyphus, Hephaestus, Prometheus, Atlas
+  Xi Jinping, Zhuge Liang, Laozi, Mao Zedong
 
 Unlike 'opencode run', this command waits until:
   - All todos are completed or cancelled

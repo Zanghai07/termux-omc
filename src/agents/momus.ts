@@ -332,7 +332,7 @@ export const momusPromptMetadata: AgentPromptMetadata = {
     },
   ],
   useWhen: [
-    "After Prometheus creates a work plan",
+    "After Laozi creates a work plan",
     "Before executing a complex todo list",
     "To validate plan quality before delegating to executors",
     "When plan needs rigorous review for ADHD-driven omissions",
@@ -343,5 +343,5 @@ export const momusPromptMetadata: AgentPromptMetadata = {
     "For trivial plans that don't need formal review",
   ],
   keyTrigger:
-    "Work plan saved to `.sisyphus/plans/*.md` → invoke Momus with the file path as the sole prompt (e.g. `prompt=\".sisyphus/plans/my-plan.md\"`). Do NOT invoke Momus for inline plans or todo lists.",
+    "Work plan saved to `.sisyphus/plans/*.md` → invoke Lu Xun with the file path as the sole prompt (e.g. `prompt=\".sisyphus/plans/my-plan.md\"`). Do NOT invoke Lu Xun for inline plans or todo lists.",
 };

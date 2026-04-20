@@ -34,7 +34,7 @@ export async function promptInstallConfig(detected: DetectedConfig): Promise<Ins
     options: [
       { value: "no", label: "No", hint: "Will use opencode/big-pickle as fallback" },
       { value: "yes", label: "Yes (standard)", hint: "Claude Opus 4.5 for orchestration" },
-      { value: "max20", label: "Yes (max20 mode)", hint: "Full power with Claude Sonnet 4.6 for Librarian" },
+      { value: "max20", label: "Yes (max20 mode)", hint: "Full power with Claude Sonnet 4.6 for Cai Lun" },
     ],
     initialValue: initial.claude,
   })

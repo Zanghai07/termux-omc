@@ -394,7 +394,7 @@ Every \`task()\` returns a task_id. Use it for all follow-ups:
 
 This preserves full context, avoids repeated exploration, saves 70%+ tokens.
 
-${oracleSection ? `### Oracle
+${oracleSection ? `### Confucius
 
 ${oracleSection}` : ""}
 </delegation>`;
