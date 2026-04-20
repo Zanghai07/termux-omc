@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 import { parse, ParseError, printParseErrorCode } from "jsonc-parser"
 
-import { CONFIG_BASENAME, LEGACY_CONFIG_BASENAME } from "./plugin-identity"
+import { CONFIG_BASENAME, LEGACY_CONFIG_BASENAME, LEGACY_CONFIG_BASENAME_2 } from "./plugin-identity"
 
 export interface JsoncParseResult<T> {
   data: T | null
@@ -82,14 +82,24 @@ export function detectPluginConfigFile(dir: string): {
 } {
   const canonicalResult = detectConfigFile(join(dir, CONFIG_BASENAME))
   const legacyResult = detectConfigFile(join(dir, LEGACY_CONFIG_BASENAME))
+  const legacyResult2 = detectConfigFile(join(dir, LEGACY_CONFIG_BASENAME_2))
 
   if (canonicalResult.format !== "none") {
+    const firstLegacy = legacyResult.format !== "none" ? legacyResult.path
+      : legacyResult2.format !== "none" ? legacyResult2.path
+      : undefined
     return {
       ...canonicalResult,
-      legacyPath: legacyResult.format !== "none" ? legacyResult.path : undefined,
+      legacyPath: firstLegacy,
     }
   }
 
+  // Check oh-my-openagent.json (legacy from upstream)
+  if (legacyResult2.format !== "none") {
+    return legacyResult2
+  }
+
+  // Check oh-my-opencode.json (legacy)
   if (legacyResult.format !== "none") {
     return legacyResult
   }
