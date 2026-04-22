@@ -179,24 +179,14 @@ OpenCode versi Termux (Hope2333) disable plugin secara default. Kita perlu enabl
 sed -i 's/OPENCODE_DISABLE_DEFAULT_PLUGINS:=1/OPENCODE_DISABLE_DEFAULT_PLUGINS:=0/' $(which opencode)
 ```
 
-### Step 7: Konfigurasi provider
+### Step 7: Unduh opencode.json dari menu rilis
 
-Edit `~/.config/opencode/opencode.json` dan tambahkan provider kamu:
-
-```json
-{
-  "provider": {
-    "nama-provider": {
-      "name": "Provider Kamu",
-      "npm": "@ai-sdk/openai-compatible",
-      "options": {
-        "apiKey": "api-key-kamu",
-        "baseURL": "https://api-provider-kamu/v1"
-      }
-    }
-  }
-}
+```bash
+rm ~/.config/opencode/opencode.json
+cp /jalur/ke/opencode.json ~/.config/opencode
 ```
+
+Ganti api key dengan apikey kamu.
 
 ### Step 8: Jalankan
 
