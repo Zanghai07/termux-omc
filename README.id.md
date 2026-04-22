@@ -119,7 +119,7 @@ Script ini akan install: Bun (via bun-termux), OpenCode, oh-my-china, tmux, dan 
 
 ### Setup Manual
 
-**1. Install dependencies dasar:**
+**1. Install dependencies dasar + glibc:**
 
 ```bash
 pkg update -y && pkg upgrade -y
@@ -127,32 +127,39 @@ pkg install -y git curl clang make python tmux
 pkg install -y glibc-repo glibc-runner
 ```
 
-**2. Install Bun via bun-termux:**
+**2. Install Bun (raw binary dulu):**
+
+```bash
+touch ~/.bashrc
+curl -fsSL https://bun.sh/install | bash
+source ~/.bashrc
+```
+
+**3. Install bun-termux wrapper (bridge glibc-runner):**
 
 ```bash
 git clone https://github.com/Happ1ness-dev/bun-termux.git
 cd bun-termux
 make && make install
+cd ..
 bun --version
 ```
 
-**3. Install oh-my-china:**
+> Wrapper ini replace binary Bun dengan launcher yang pakai glibc dynamic linker. Tanpa ini, Bun crash karena Android butuh PIE executable.
 
-```bash
-bun install -g oh-my-china
-```
-
-Atau dari source:
+**4. Install oh-my-china dari source:**
 
 ```bash
 git clone https://github.com/enowdev/oh-my-china.git
 cd oh-my-china
-bun install
+BUN_OPTIONS="--os=android" bun install
 bun run build
 bun link
 ```
 
-**4. Konfigurasi OpenCode:**
+> `bun install -g` dari npm registry ga jalan di Termux karena registry reject `os: android`. Install dari source via `bun link` sebagai gantinya.
+
+**5. Konfigurasi OpenCode:**
 
 ```bash
 mkdir -p ~/.config/opencode
@@ -170,7 +177,7 @@ cat > ~/.config/opencode/opencode.json << 'EOF'
 EOF
 ```
 
-**5. Jalankan:**
+**6. Jalankan:**
 
 ```bash
 opencode
@@ -188,7 +195,10 @@ pkg install -y ripgrep        # Pencarian cepat (auto-download jika tidak ada)
 
 | Masalah | Solusi |
 |---------|--------|
-| `bun: command not found` | Pastikan glibc-runner terinstall: `pkg install glibc-repo glibc-runner` |
+| `required file not found` saat jalankan bun | Wrapper bun-termux belum terinstall. Jalankan: `cd bun-termux && make && make install` |
+| `bun: command not found` | Tambah ke `~/.bashrc`: `export PATH="$HOME/.bun/bin:$PATH"` lalu `source ~/.bashrc` |
+| `npm error notsup Unsupported platform` | Normal - npm registry reject Android. Install dari source pakai `bun link` |
+| Native module error saat `bun install` | Tambah: `BUN_OPTIONS="--os=android" bun install` |
 | `SIGILL` saat jalankan binary | Coba: `export OH_MY_OPENCODE_FORCE_BASELINE=1` |
 | Notifikasi tidak muncul | Install Termux:API app dari F-Droid + `pkg install termux-api` |
 | tmux error | `pkg install tmux` dan restart Termux |

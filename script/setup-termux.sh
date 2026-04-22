@@ -17,69 +17,79 @@ if [ -z "$TERMUX_VERSION" ]; then
     error "This script must be run inside Termux."
 fi
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
 info "oh-my-china Termux Setup"
 echo ""
 
-# Step 1: Update packages
 info "Updating Termux packages..."
 pkg update -y && pkg upgrade -y
 
-# Step 2: Install base dependencies
 info "Installing base dependencies..."
 pkg install -y git curl clang make python tmux
 
-# Step 3: Install glibc support (required for Bun)
-info "Installing glibc support for Bun..."
+info "Installing glibc support (required for Bun)..."
 pkg install -y glibc-repo glibc-runner
 
-# Step 4: Install Bun via bun-termux
 if command -v bun &> /dev/null; then
-    info "Bun already installed: $(bun --version)"
+    info "Bun already installed: $(bun --version 2>/dev/null || echo 'wrapper present')"
 else
-    info "Installing Bun via bun-termux..."
+    info "Installing Bun + bun-termux wrapper..."
+
+    touch ~/.bashrc
+
+    curl -fsSL https://bun.sh/install | bash || true
+
+    if [ -f "$HOME/.bashrc" ]; then
+        source "$HOME/.bashrc"
+    fi
+    export BUN_INSTALL="$HOME/.bun"
+    export PATH="$BUN_INSTALL/bin:$PATH"
+
+    if [ ! -f "$BUN_INSTALL/bin/bun" ]; then
+        error "Bun install failed. The raw binary was not downloaded. Check your internet connection."
+    fi
+
+    info "Installing bun-termux wrapper (glibc-runner bridge)..."
     TEMP_DIR=$(mktemp -d)
     git clone https://github.com/Happ1ness-dev/bun-termux.git "$TEMP_DIR/bun-termux"
     cd "$TEMP_DIR/bun-termux"
     make && make install
-    cd -
+    cd "$PROJECT_DIR"
     rm -rf "$TEMP_DIR"
 
-    if command -v bun &> /dev/null; then
-        info "Bun installed: $(bun --version)"
+    if [ -f "$HOME/.bashrc" ]; then
+        source "$HOME/.bashrc"
+    fi
+
+    if bun --version &> /dev/null; then
+        info "Bun ready: $(bun --version)"
     else
-        error "Bun installation failed. Try manual install: https://github.com/Happ1ness-dev/bun-termux"
+        error "bun-termux wrapper install failed. See: https://github.com/Happ1ness-dev/bun-termux"
     fi
 fi
 
-# Step 5: Install OpenCode
-if command -v opencode &> /dev/null; then
-    info "OpenCode already installed: $(opencode --version 2>/dev/null || echo 'unknown')"
-else
-    info "Installing OpenCode..."
-    bun install -g opencode || npm install -g opencode 2>/dev/null || warn "OpenCode install failed - install manually"
+export BUN_INSTALL="${BUN_INSTALL:-$HOME/.bun}"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+info "Installing oh-my-china from source..."
+cd "$PROJECT_DIR"
+
+if [ ! -f "package.json" ] || ! grep -q "oh-my-china" package.json 2>/dev/null; then
+    error "Not in oh-my-china project root. Run this script from the cloned repo: bash script/setup-termux.sh"
 fi
 
-# Step 6: Install oh-my-china
-info "Installing oh-my-china..."
-bun install -g oh-my-china || npm install -g oh-my-china 2>/dev/null || {
-    warn "Global install failed, trying from source..."
-    if [ -f "package.json" ] && grep -q "oh-my-china" package.json; then
-        bun install
-        bun run build
-        bun link
-        info "Installed from source via bun link"
-    else
-        error "Could not install oh-my-china. Clone the repo and run: bun install && bun run build && bun link"
-    fi
-}
+BUN_OPTIONS="--os=android" bun install || bun install
+bun run build
+bun link
+info "oh-my-china installed via bun link"
 
-# Step 7: Install optional tools
 info "Installing optional tools..."
 pkg install -y imagemagick 2>/dev/null || warn "imagemagick not available"
 pkg install -y termux-api 2>/dev/null || warn "termux-api not available (notifications won't work)"
 pkg install -y ripgrep 2>/dev/null || warn "ripgrep not available (will be downloaded automatically)"
 
-# Step 8: Configure OpenCode plugin
 OPENCODE_CONFIG_DIR="$HOME/.config/opencode"
 OPENCODE_CONFIG="$OPENCODE_CONFIG_DIR/opencode.json"
 
@@ -120,4 +130,8 @@ echo '      }'
 echo '    },'
 echo '    "plugin": ["oh-my-china"]'
 echo '  }'
+echo ""
+echo "  If bun is not found in new terminal sessions, add to ~/.bashrc:"
+echo '  export BUN_INSTALL="$HOME/.bun"'
+echo '  export PATH="$BUN_INSTALL/bin:$PATH"'
 echo ""

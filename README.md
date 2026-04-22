@@ -118,16 +118,25 @@ bash script/setup-termux.sh
 ### Manual Setup
 
 ```bash
-# Dependencies
+# Dependencies + glibc
 pkg update -y && pkg upgrade -y
 pkg install -y git curl clang make python tmux glibc-repo glibc-runner
 
-# Bun via bun-termux
+# Install Bun raw binary first
+touch ~/.bashrc
+curl -fsSL https://bun.sh/install | bash
+source ~/.bashrc
+
+# Install bun-termux wrapper (glibc-runner bridge)
 git clone https://github.com/Happ1ness-dev/bun-termux.git
 cd bun-termux && make && make install && cd ..
 
-# oh-my-china
-bun install -g oh-my-china
+# Install oh-my-china from source (npm registry rejects os:android)
+git clone https://github.com/enowdev/oh-my-china.git
+cd oh-my-china
+BUN_OPTIONS="--os=android" bun install
+bun run build
+bun link
 
 # Optional tools
 pkg install -y imagemagick termux-api ripgrep
