@@ -91,8 +91,8 @@ opencode
 ## Install from source
 
 ```bash
-git clone https://github.com/enowdev/oh-my-china.git
-cd oh-my-china
+git clone https://github.com/Zanghai07/termux-omc.git
+cd termux-omc
 bun install
 bun run build
 bun link
@@ -123,13 +123,13 @@ bun --version  # should print version number
 
 # 4. Build oh-my-china
 cd ~
-git clone https://github.com/enowdev/oh-my-china.git
-cd oh-my-china
+git clone https://github.com/Zanghai07/termux-omc.git
+cd termux-omc
 BUN_OPTIONS="--os=android" bun install
 bun run build
 
 # 5. Register plugin
-opencode plugin ~/oh-my-china
+opencode plugin ~/termux-omc
 
 # 6. Enable plugins (disabled by default in Termux OpenCode)
 sed -i 's/OPENCODE_DISABLE_DEFAULT_PLUGINS:=1/OPENCODE_DISABLE_DEFAULT_PLUGINS:=0/' $(which opencode)

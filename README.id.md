@@ -91,8 +91,8 @@ opencode
 ## Install dari source
 
 ```bash
-git clone https://github.com/enowdev/oh-my-china.git
-cd oh-my-china
+git clone https://github.com/Zanghai07/termux-omc.git
+cd termux-omc
 bun install
 bun run build
 bun link
@@ -159,8 +159,8 @@ Kalau muncul nomor versi (misal `1.3.13`), lanjut ke step berikutnya.
 
 ```bash
 cd ~
-git clone https://github.com/enowdev/oh-my-china.git
-cd oh-my-china
+git clone https://github.com/Zanghai07/termux-omc.git
+cd termux-omc
 BUN_OPTIONS="--os=android" bun install
 bun run build
 ```
@@ -168,7 +168,7 @@ bun run build
 ### Step 5: Register plugin ke OpenCode
 
 ```bash
-opencode plugin ~/oh-my-china
+opencode plugin ~/termux-omc
 ```
 
 ### Step 6: Enable plugin di OpenCode
