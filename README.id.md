@@ -104,22 +104,16 @@ Lalu tambahkan `"oh-my-china"` ke array plugin di `opencode.json`.
 
 ## Install di Termux (Android)
 
-Bun belum officially support Android/Termux, tapi bisa dijalankan via [bun-termux](https://github.com/Happ1ness-dev/bun-termux) wrapper yang pakai glibc-runner.
+Panduan lengkap dari nol untuk yang baru install Termux.
 
-### Setup Otomatis
+### Prasyarat
 
-```bash
-pkg install -y git curl
-git clone https://github.com/enowdev/oh-my-china.git
-cd oh-my-china
-bash script/setup-termux.sh
-```
+- [Termux](https://f-droid.org/en/packages/com.termux/) dari F-Droid (jangan dari Play Store - versi Play Store outdated)
+- [OpenCode untuk Termux](https://github.com/Hope2333/opencode-termux) sudah terinstall dan bisa jalan
 
-Script ini akan install: Bun (via bun-termux), OpenCode, oh-my-china, tmux, dan dependencies lainnya.
+### Step 1: Update dan install dependencies
 
-### Setup Manual
-
-**1. Install dependencies dasar + glibc:**
+Buka Termux, lalu jalankan satu per satu:
 
 ```bash
 pkg update -y && pkg upgrade -y
@@ -127,7 +121,9 @@ pkg install -y git curl clang make python tmux
 pkg install -y glibc-repo glibc-runner
 ```
 
-**2. Install Bun (raw binary dulu):**
+### Step 2: Install Bun
+
+Bun belum officially support Android. Kita perlu install binary dulu, lalu pasang wrapper supaya bisa jalan.
 
 ```bash
 touch ~/.bashrc
@@ -135,55 +131,82 @@ curl -fsSL https://bun.sh/install | bash
 source ~/.bashrc
 ```
 
-**3. Install bun-termux wrapper (bridge glibc-runner):**
+Verifikasi Bun terdownload (belum bisa dijalankan):
 
 ```bash
-git clone https://github.com/Happ1ness-dev/bun-termux.git
-cd bun-termux
+ls ~/.bun/bin/bun
+```
+
+### Step 3: Install bun-termux wrapper
+
+Wrapper ini bikin Bun bisa jalan di Android lewat glibc dynamic linker.
+
+```bash
+git clone https://github.com/Happ1ness-dev/bun-termux.git ~/bun-termux
+cd ~/bun-termux
 make && make install
-cd ..
+```
+
+Verifikasi Bun bisa jalan:
+
+```bash
 bun --version
 ```
 
-> Wrapper ini replace binary Bun dengan launcher yang pakai glibc dynamic linker. Tanpa ini, Bun crash karena Android butuh PIE executable.
+Kalau muncul nomor versi (misal `1.3.13`), lanjut ke step berikutnya.
 
-**4. Install oh-my-china dari source:**
+### Step 4: Clone dan build oh-my-china
 
 ```bash
+cd ~
 git clone https://github.com/enowdev/oh-my-china.git
 cd oh-my-china
 BUN_OPTIONS="--os=android" bun install
 bun run build
-bun link
 ```
 
-> `bun install -g` dari npm registry ga jalan di Termux karena registry reject `os: android`. Install dari source via `bun link` sebagai gantinya.
-
-**5. Konfigurasi OpenCode:**
+### Step 5: Register plugin ke OpenCode
 
 ```bash
-mkdir -p ~/.config/opencode
-cat > ~/.config/opencode/opencode.json << 'EOF'
-{
-  "provider": {
-    "proxy-kamu": {
-      "type": "openai",
-      "url": "http://proxy-china-kamu:port/v1",
-      "key": "api-key-kamu"
-    }
-  },
-  "plugin": ["oh-my-china"]
-}
-EOF
+opencode plugin ~/oh-my-china
 ```
 
-**6. Jalankan:**
+### Step 6: Enable plugin di OpenCode
+
+OpenCode versi Termux (Hope2333) disable plugin secara default. Kita perlu enable:
+
+```bash
+sed -i 's/OPENCODE_DISABLE_DEFAULT_PLUGINS:=1/OPENCODE_DISABLE_DEFAULT_PLUGINS:=0/' $(which opencode)
+```
+
+### Step 7: Konfigurasi provider
+
+Edit `~/.config/opencode/opencode.json` dan tambahkan provider kamu:
+
+```json
+{
+  "provider": {
+    "nama-provider": {
+      "name": "Provider Kamu",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "apiKey": "api-key-kamu",
+        "baseURL": "https://api-provider-kamu/v1"
+      }
+    }
+  }
+}
+```
+
+### Step 8: Jalankan
 
 ```bash
 opencode
 ```
 
-### Tools Opsional di Termux
+Kalau berhasil, agent di OpenCode akan berubah dari "build" menjadi "Xi Jinping".
+
+### Tools Opsional
 
 ```bash
 pkg install -y imagemagick    # Konversi gambar
@@ -195,14 +218,16 @@ pkg install -y ripgrep        # Pencarian cepat (auto-download jika tidak ada)
 
 | Masalah | Solusi |
 |---------|--------|
-| `required file not found` saat jalankan bun | Wrapper bun-termux belum terinstall. Jalankan: `cd bun-termux && make && make install` |
+| `required file not found` saat jalankan `bun` | Wrapper bun-termux belum terinstall. Jalankan: `cd ~/bun-termux && make && make install` |
 | `bun: command not found` | Tambah ke `~/.bashrc`: `export PATH="$HOME/.bun/bin:$PATH"` lalu `source ~/.bashrc` |
-| `npm error notsup Unsupported platform` | Normal - npm registry reject Android. Install dari source pakai `bun link` |
-| Native module error saat `bun install` | Tambah: `BUN_OPTIONS="--os=android" bun install` |
+| `npm error notsup Unsupported platform` | Normal di Termux. Install dari source, jangan pakai `bun install -g` |
+| Native module error saat `bun install` | Pakai: `BUN_OPTIONS="--os=android" bun install` |
+| `Failed to get CPU information` saat load plugin | Pastikan pakai versi oh-my-china terbaru yang sudah di-patch untuk Termux |
+| Plugin tidak ke-load (agent masih "build") | Pastikan sudah jalankan `sed` di Step 6 untuk enable plugin |
 | `SIGILL` saat jalankan binary | Coba: `export OH_MY_OPENCODE_FORCE_BASELINE=1` |
 | Notifikasi tidak muncul | Install Termux:API app dari F-Droid + `pkg install termux-api` |
 | tmux error | `pkg install tmux` dan restart Termux |
-| Permission denied | Termux tidak pakai sudo. Gunakan `pkg install` bukan `apt install` |
+| Permission denied / sudo | Termux tidak pakai sudo. Gunakan `pkg install` bukan `apt install` |
 
 ---
 

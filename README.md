@@ -104,45 +104,41 @@ Then add `"oh-my-china"` to your `opencode.json` plugin array.
 
 ## Install on Termux (Android)
 
-Bun doesn't officially support Android/Termux, but works via [bun-termux](https://github.com/Happ1ness-dev/bun-termux) wrapper using glibc-runner.
-
-### Quick Setup
+Complete guide from scratch. Requires [Termux](https://f-droid.org/en/packages/com.termux/) from F-Droid and [OpenCode for Termux](https://github.com/Hope2333/opencode-termux).
 
 ```bash
-pkg install -y git curl
-git clone https://github.com/enowdev/oh-my-china.git
-cd oh-my-china
-bash script/setup-termux.sh
-```
-
-### Manual Setup
-
-```bash
-# Dependencies + glibc
+# 1. Install dependencies
 pkg update -y && pkg upgrade -y
 pkg install -y git curl clang make python tmux glibc-repo glibc-runner
 
-# Install Bun raw binary first
+# 2. Install Bun
 touch ~/.bashrc
 curl -fsSL https://bun.sh/install | bash
 source ~/.bashrc
 
-# Install bun-termux wrapper (glibc-runner bridge)
-git clone https://github.com/Happ1ness-dev/bun-termux.git
-cd bun-termux && make && make install && cd ..
+# 3. Install bun-termux wrapper (makes Bun work on Android)
+git clone https://github.com/Happ1ness-dev/bun-termux.git ~/bun-termux
+cd ~/bun-termux && make && make install
+bun --version  # should print version number
 
-# Install oh-my-china from source (npm registry rejects os:android)
+# 4. Build oh-my-china
+cd ~
 git clone https://github.com/enowdev/oh-my-china.git
 cd oh-my-china
 BUN_OPTIONS="--os=android" bun install
 bun run build
-bun link
 
-# Optional tools
-pkg install -y imagemagick termux-api ripgrep
+# 5. Register plugin
+opencode plugin ~/oh-my-china
+
+# 6. Enable plugins (disabled by default in Termux OpenCode)
+sed -i 's/OPENCODE_DISABLE_DEFAULT_PLUGINS:=1/OPENCODE_DISABLE_DEFAULT_PLUGINS:=0/' $(which opencode)
+
+# 7. Run
+opencode
 ```
 
-See [README.id.md](README.id.md) for detailed Termux instructions and troubleshooting.
+See [README.id.md](README.id.md) for detailed step-by-step guide and troubleshooting.
 
 ---
 
