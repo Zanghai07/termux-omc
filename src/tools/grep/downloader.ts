@@ -39,8 +39,8 @@ function getPlatformKey(): string {
 }
 
 function getInstallDir(): string {
-  const homeDir = process.env.HOME || process.env.USERPROFILE || "."
-  return join(homeDir, ".cache", CACHE_DIR_NAME, "bin")
+  const cacheBase = process.env.XDG_CACHE_HOME || join(process.env.HOME || process.env.USERPROFILE || ".", ".cache")
+  return join(cacheBase, CACHE_DIR_NAME, "bin")
 }
 
 function getRgPath(): string {

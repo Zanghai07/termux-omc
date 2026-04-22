@@ -8,8 +8,10 @@ import {
   getPaplayPath,
   getAplayPath,
   getTerminalNotifierPath,
+  getTermuxNotificationPath,
 } from "./session-notification-utils"
 import { buildWindowsToastScript, escapeAppleScriptText, escapePowerShellSingleQuotedText } from "./session-notification-formatting"
+import { isTermux } from "../shared/termux-detection"
 
 export type Platform = "darwin" | "linux" | "win32" | "unsupported"
 
@@ -19,11 +21,12 @@ export function detectPlatform(): Platform {
   return "unsupported"
 }
 
-export function getDefaultSoundPath(platform: Platform): string {
-  switch (platform) {
+export function getDefaultSoundPath(detectedPlatform: Platform): string {
+  switch (detectedPlatform) {
     case "darwin":
       return "/System/Library/Sounds/Glass.aiff"
     case "linux":
+      if (isTermux()) return ""
       return "/usr/share/sounds/freedesktop/stereo/complete.oga"
     case "win32":
       return "C:\\Windows\\Media\\notify.wav"
@@ -65,6 +68,14 @@ export async function sendSessionNotification(
       break
     }
     case "linux": {
+      if (isTermux()) {
+        const termuxNotificationPath = await getTermuxNotificationPath()
+        if (termuxNotificationPath) {
+          await ctx.$`${termuxNotificationPath} --title ${title} --content ${message}`.nothrow().quiet()
+          break
+        }
+      }
+
       const notifySendPath = await getNotifySendPath()
       if (!notifySendPath) return
 

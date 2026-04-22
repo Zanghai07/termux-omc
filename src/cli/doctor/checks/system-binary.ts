@@ -2,6 +2,7 @@ import { existsSync } from "node:fs"
 import { homedir } from "node:os"
 import { join } from "node:path"
 import { spawnWithTimeout } from "../spawn-with-timeout"
+import { isTermux, getTermuxPrefix } from "../../../shared/termux-detection"
 
 import { OPENCODE_BINARIES } from "../constants"
 
@@ -35,13 +36,22 @@ export function getDesktopAppPaths(platform: NodeJS.Platform): string[] {
 
       return paths
     }
-    case "linux":
-      return [
+    case "linux": {
+      const paths = [
         "/usr/bin/opencode",
         "/usr/lib/opencode/opencode",
         join(home, "Applications", "opencode-desktop-linux-x86_64.AppImage"),
         join(home, "Applications", "opencode-desktop-linux-aarch64.AppImage"),
       ]
+      if (isTermux()) {
+        const prefix = getTermuxPrefix()
+        paths.unshift(
+          join(prefix, "bin", "opencode"),
+          join(prefix, "lib", "opencode", "opencode"),
+        )
+      }
+      return paths
+    }
     default:
       return []
   }

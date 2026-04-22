@@ -102,6 +102,41 @@ Then add `"oh-my-china"` to your `opencode.json` plugin array.
 
 ---
 
+## Install on Termux (Android)
+
+Bun doesn't officially support Android/Termux, but works via [bun-termux](https://github.com/Happ1ness-dev/bun-termux) wrapper using glibc-runner.
+
+### Quick Setup
+
+```bash
+pkg install -y git curl
+git clone https://github.com/enowdev/oh-my-china.git
+cd oh-my-china
+bash script/setup-termux.sh
+```
+
+### Manual Setup
+
+```bash
+# Dependencies
+pkg update -y && pkg upgrade -y
+pkg install -y git curl clang make python tmux glibc-repo glibc-runner
+
+# Bun via bun-termux
+git clone https://github.com/Happ1ness-dev/bun-termux.git
+cd bun-termux && make && make install && cd ..
+
+# oh-my-china
+bun install -g oh-my-china
+
+# Optional tools
+pkg install -y imagemagick termux-api ripgrep
+```
+
+See [README.id.md](README.id.md) for detailed Termux instructions and troubleshooting.
+
+---
+
 ## Upstream Features
 
 This fork inherits all features from oh-my-opencode:

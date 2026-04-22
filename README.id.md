@@ -102,6 +102,100 @@ Lalu tambahkan `"oh-my-china"` ke array plugin di `opencode.json`.
 
 ---
 
+## Install di Termux (Android)
+
+Bun belum officially support Android/Termux, tapi bisa dijalankan via [bun-termux](https://github.com/Happ1ness-dev/bun-termux) wrapper yang pakai glibc-runner.
+
+### Setup Otomatis
+
+```bash
+pkg install -y git curl
+git clone https://github.com/enowdev/oh-my-china.git
+cd oh-my-china
+bash script/setup-termux.sh
+```
+
+Script ini akan install: Bun (via bun-termux), OpenCode, oh-my-china, tmux, dan dependencies lainnya.
+
+### Setup Manual
+
+**1. Install dependencies dasar:**
+
+```bash
+pkg update -y && pkg upgrade -y
+pkg install -y git curl clang make python tmux
+pkg install -y glibc-repo glibc-runner
+```
+
+**2. Install Bun via bun-termux:**
+
+```bash
+git clone https://github.com/Happ1ness-dev/bun-termux.git
+cd bun-termux
+make && make install
+bun --version
+```
+
+**3. Install oh-my-china:**
+
+```bash
+bun install -g oh-my-china
+```
+
+Atau dari source:
+
+```bash
+git clone https://github.com/enowdev/oh-my-china.git
+cd oh-my-china
+bun install
+bun run build
+bun link
+```
+
+**4. Konfigurasi OpenCode:**
+
+```bash
+mkdir -p ~/.config/opencode
+cat > ~/.config/opencode/opencode.json << 'EOF'
+{
+  "provider": {
+    "proxy-kamu": {
+      "type": "openai",
+      "url": "http://proxy-china-kamu:port/v1",
+      "key": "api-key-kamu"
+    }
+  },
+  "plugin": ["oh-my-china"]
+}
+EOF
+```
+
+**5. Jalankan:**
+
+```bash
+opencode
+```
+
+### Tools Opsional di Termux
+
+```bash
+pkg install -y imagemagick    # Konversi gambar
+pkg install -y termux-api     # Notifikasi native Android
+pkg install -y ripgrep        # Pencarian cepat (auto-download jika tidak ada)
+```
+
+### Troubleshooting Termux
+
+| Masalah | Solusi |
+|---------|--------|
+| `bun: command not found` | Pastikan glibc-runner terinstall: `pkg install glibc-repo glibc-runner` |
+| `SIGILL` saat jalankan binary | Coba: `export OH_MY_OPENCODE_FORCE_BASELINE=1` |
+| Notifikasi tidak muncul | Install Termux:API app dari F-Droid + `pkg install termux-api` |
+| tmux error | `pkg install tmux` dan restart Termux |
+| Permission denied | Termux tidak pakai sudo. Gunakan `pkg install` bukan `apt install` |
+
+---
+
 ## Fitur dari Upstream
 
 Fork ini mewarisi semua fitur dari oh-my-opencode:

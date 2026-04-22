@@ -1,4 +1,5 @@
 import { log } from "../shared/logger"
+import { isTermux } from "../shared/termux-detection"
 
 declare const Bun: {
   which(commandName: string): string | null
@@ -50,6 +51,7 @@ export const getAfplayPath = createCommandFinder("afplay")
 export const getPaplayPath = createCommandFinder("paplay")
 export const getAplayPath = createCommandFinder("aplay")
 export const getTerminalNotifierPath = createCommandFinder("terminal-notifier")
+export const getTermuxNotificationPath = createCommandFinder("termux-notification")
 
 export function startBackgroundCheck(platform: Platform): void {
   if (platform === "darwin") {
@@ -63,15 +65,21 @@ export function startBackgroundCheck(platform: Platform): void {
       logBackgroundCheckError("terminal-notifier", error)
     })
   } else if (platform === "linux") {
-    getNotifySendPath().catch((error) => {
-      logBackgroundCheckError("notify-send", error)
-    })
-    getPaplayPath().catch((error) => {
-      logBackgroundCheckError("paplay", error)
-    })
-    getAplayPath().catch((error) => {
-      logBackgroundCheckError("aplay", error)
-    })
+    if (isTermux()) {
+      getTermuxNotificationPath().catch((error) => {
+        logBackgroundCheckError("termux-notification", error)
+      })
+    } else {
+      getNotifySendPath().catch((error) => {
+        logBackgroundCheckError("notify-send", error)
+      })
+      getPaplayPath().catch((error) => {
+        logBackgroundCheckError("paplay", error)
+      })
+      getAplayPath().catch((error) => {
+        logBackgroundCheckError("aplay", error)
+      })
+    }
   } else if (platform === "win32") {
     getPowershellPath().catch((error) => {
       logBackgroundCheckError("powershell", error)

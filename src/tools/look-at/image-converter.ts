@@ -3,6 +3,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync, unlinkSync, writeFileSyn
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { log } from "../../shared"
+import { isTermux } from "../../shared/termux-detection"
 
 const SUPPORTED_FORMATS = new Set([
   "image/jpeg",
@@ -90,11 +91,15 @@ export function convertImageToJpeg(inputPath: string, mimeType: string): string 
       log(`[image-converter] ImageMagick convert failed: ${convertError}`)
     }
 
+    const installHint = isTermux()
+      ? `  Termux: pkg install imagemagick`
+      : `  Ubuntu/Debian: sudo apt install imagemagick\n` +
+        `  RHEL/CentOS: sudo yum install ImageMagick`
+
     throw new Error(
       `No image conversion tool available. Please install ImageMagick:\n` +
       `  macOS: brew install imagemagick\n` +
-      `  Ubuntu/Debian: sudo apt install imagemagick\n` +
-      `  RHEL/CentOS: sudo yum install ImageMagick`
+      installHint
     )
   } catch (error) {
     try {
