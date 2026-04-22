@@ -134,7 +134,12 @@ opencode plugin ~/termux-omc
 # 6. Enable plugins (disabled by default in Termux OpenCode)
 sed -i 's/OPENCODE_DISABLE_DEFAULT_PLUGINS:=1/OPENCODE_DISABLE_DEFAULT_PLUGINS:=0/' $(which opencode)
 
-# 7. Run
+# 7. Download the opencode.json from the release menu
+rm ~/.config/opencode/opencode.json
+cp /path/to/opencode.json ~/.config/opencode
+(dont forget to replace the api key to your own enowx api key)
+
+# 8. Run
 opencode
 ```
 
