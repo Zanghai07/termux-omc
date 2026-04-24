@@ -1,4 +1,5 @@
 import type { BackgroundTaskConfig } from "../../config/schema"
+import { DEFAULT_TERMUX_CONCURRENCY } from "./constants"
 
 /**
  * Queue entry with settled-flag pattern to prevent double-resolution.
@@ -35,7 +36,7 @@ export class ConcurrencyManager {
     if (defaultLimit !== undefined) {
       return defaultLimit === 0 ? Infinity : defaultLimit
     }
-    return 5
+    return DEFAULT_TERMUX_CONCURRENCY
   }
 
   async acquire(model: string): Promise<void> {

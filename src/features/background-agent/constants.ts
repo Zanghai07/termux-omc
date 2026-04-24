@@ -1,20 +1,24 @@
 import type { PluginInput } from "@opencode-ai/plugin"
 import type { BackgroundTask, LaunchInput } from "./types"
+import { getTermuxTimeoutOverrides } from "./termux-timeout-defaults"
 
-export const TASK_TTL_MS = 30 * 60 * 1000
+const termuxOverrides = getTermuxTimeoutOverrides()
+
+export const TASK_TTL_MS = termuxOverrides?.taskTtlMs ?? 30 * 60 * 1000
 export const TERMINAL_TASK_TTL_MS = 30 * 60 * 1000
 export const MIN_STABILITY_TIME_MS = 10 * 1000
-export const DEFAULT_STALE_TIMEOUT_MS = 2_700_000
-export const DEFAULT_MESSAGE_STALENESS_TIMEOUT_MS = 3_600_000
+export const DEFAULT_STALE_TIMEOUT_MS = termuxOverrides?.staleTimeoutMs ?? 2_700_000
+export const DEFAULT_MESSAGE_STALENESS_TIMEOUT_MS = termuxOverrides?.messageStalenessTimeoutMs ?? 3_600_000
 export const DEFAULT_MAX_TOOL_CALLS = 4000
 export const DEFAULT_CIRCUIT_BREAKER_CONSECUTIVE_THRESHOLD = 20
 export const DEFAULT_CIRCUIT_BREAKER_ENABLED = true
 export const MIN_RUNTIME_BEFORE_STALE_MS = 30_000
-export const DEFAULT_SESSION_GONE_TIMEOUT_MS = 60_000
+export const DEFAULT_SESSION_GONE_TIMEOUT_MS = termuxOverrides?.sessionGoneTimeoutMs ?? 60_000
 export const MIN_IDLE_TIME_MS = 5000
 export const POLLING_INTERVAL_MS = 3000
 export const TASK_CLEANUP_DELAY_MS = 10 * 60 * 1000
 export const TMUX_CALLBACK_DELAY_MS = 200
+export const DEFAULT_TERMUX_CONCURRENCY = termuxOverrides?.defaultConcurrency ?? 5
 
 export type ProcessCleanupEvent = NodeJS.Signals | "beforeExit" | "exit"
 

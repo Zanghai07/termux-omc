@@ -2,16 +2,26 @@ import type { ToolContextWithMetadata, OpencodeClient } from "./types"
 import type { SessionMessage } from "./executor-types"
 import { getDefaultSyncPollTimeoutMs, getTimingConfig } from "./timing"
 import { log } from "../../shared/logger"
-import { normalizeSDKResponse } from "../../shared"
+import { normalizeSDKResponse, isTermux } from "../../shared"
 
 const NON_TERMINAL_FINISH_REASONS = new Set(["tool-calls", "unknown"])
 const PENDING_TOOL_PART_TYPES = new Set(["tool", "tool_use", "tool-call"])
 
-function wait(milliseconds: number): Promise<void> {
+function waitWithTimeout(milliseconds: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+function waitWithAtomics(milliseconds: number): Promise<void> {
   const sharedBuffer = new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT)
   const typedArray = new Int32Array(sharedBuffer)
   const result = Atomics.waitAsync(typedArray, 0, 0, milliseconds)
   return result.async ? result.value.then(() => undefined) : Promise.resolve()
+}
+
+const useTimeoutFallback = isTermux()
+
+function wait(milliseconds: number): Promise<void> {
+  return useTimeoutFallback ? waitWithTimeout(milliseconds) : waitWithAtomics(milliseconds)
 }
 
 function abortSyncSession(client: OpencodeClient, sessionID: string, reason: string): void {
