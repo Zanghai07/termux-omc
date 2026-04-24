@@ -1,5 +1,6 @@
 import { spawn } from "bun"
 import { validateGatewayUrl } from "./gateway-url-validation"
+import { isTermux } from "../shared/termux-detection"
 import type { OpenClawGateway, WakeResult } from "./types"
 
 const DEFAULT_HTTP_TIMEOUT_MS = 10_000
@@ -182,11 +183,12 @@ export async function wakeCommandGateway(
       return shellEscapeArg(value)
     })
 
+    const useDetached = process.platform !== "win32" && !isTermux()
     const proc = spawn(["sh", "-c", interpolated], {
       env: { ...process.env },
       stdout: "pipe",
       stderr: "ignore",
-      detached: process.platform !== "win32",
+      detached: useDetached,
     })
     const stdoutPromise = new Response(proc.stdout).text()
 
@@ -229,7 +231,8 @@ type KillableProcess = {
 
 export function terminateCommandProcess(proc: KillableProcess, signal: NodeJS.Signals): void {
   try {
-    if (process.platform !== "win32" && proc.pid) {
+    const canUseProcessGroup = process.platform !== "win32" && !isTermux()
+    if (canUseProcessGroup && proc.pid) {
       try {
         process.kill(-proc.pid, signal)
         return

@@ -1,6 +1,7 @@
 import { spawn } from "node:child_process";
 import { getHomeDirectory } from "./home-directory";
 import { findBashPath, findZshPath } from "./shell-path";
+import { isTermux } from "../termux-detection";
 
 export interface CommandResult {
   exitCode: number;
@@ -53,10 +54,11 @@ export async function executeHookCommand(
     let killTimer: ReturnType<typeof setTimeout> | null = null;
 
     const isWin32 = process.platform === "win32";
+    const useDetached = !isWin32 && !isTermux();
     const proc = spawn(finalCommand, {
       cwd,
       shell: true,
-      detached: !isWin32,
+      detached: useDetached,
       env: { ...process.env, HOME: home, CLAUDE_PROJECT_DIR: cwd },
     });
 
@@ -97,7 +99,7 @@ export async function executeHookCommand(
 
     const killProcessGroup = (signal: NodeJS.Signals) => {
       try {
-        if (!isWin32 && proc.pid) {
+        if (useDetached && proc.pid) {
           try {
             process.kill(-proc.pid, signal);
           } catch {
